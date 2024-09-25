@@ -18,8 +18,8 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
     private final int jumpStrength = 15;
     private final int worldWidth = 2000;
     private final int worldHeight = 1000;
-    private final int frameWidth = 800;
-    private final int frameHeight = 600;
+    private static final int frameWidth = 800;
+    private static final int frameHeight = 600;
 
     public JFrame frame;
 
