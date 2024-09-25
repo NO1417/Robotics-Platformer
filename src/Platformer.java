@@ -16,7 +16,10 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
     private final int moveSpeed = 5;
     private final int jumpStrength = 15;
 
+    private Player player;
+
     public ArrayList<Platform> platformList = new ArrayList();
+    public ArrayList<Rect> renderList = new ArrayList();
 
 
     public Platformer() {
@@ -30,25 +33,47 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         velocityY = 0;
         onGround = true;
 
+        this.player = new Player(50, 450, 50, 50, 0.0, 0.0., Color.RED);
+        this.addRenderableObject(player);
 
-        int height = 50;
-        
-        Platform floor = new Platform(0, getHeight-height, getWidth(), height, Color.GREEN)
-        this.platformList.add(floor)
+        Rect obstacle = new Rect(600, 500, 100, 50, Color.GREEN);
+
+        Platform floor = new Platform(0, getHeight()-50, getWidth(), 50, Color.GREEN)
+        this.addObstacle(floor);
 
         setFocusable(true);
         addKeyListener(this);
+    }
+
+    public void addObstacle(Rect obj) {
+        this.platformList.add(obj);
+        this.renderList.add(obj);
+    }
+
+
+    public void addRenderableObject(Rect obj) {
+        this.renderList.add(obj);
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.setColor(Color.CYAN);
-        g.fillRect(0, 4, getWidth(), getHeight()); // Background
+        g.fillRect(0, 0, getWidth(), getHeight()); // Background
+
+        for ( Rect rect : this.renderList ) {
+            g.setColor(rect.color);
+            g.fillRect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+        }
+
+        
+        /*
         g.setColor(Color.GREEN);
         g.fillRect(0, 500, getWidth(), 100); // Ground
+        g.fillRect(300, 480, 60, 20);
         g.setColor(Color.RED);
         g.fillRect(playerX, playerY, playerWidth, playerHeight); // Player
+        */
     }
 
     @Override
@@ -65,24 +90,27 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
             playerY = 350 - playerHeight;
             velocityY = 0;
             onGround = true;
+        
         } else {
             velocityY += gravity;
             onGround = false;
         }
-        frame.setLocation(frame.getX())
+        obstacle.setLocation(obstacle.getX()-5, obstacle.getY());
+
+        
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
 
-        if (key == KeyEvent.VK_LEFT) {
-            velocityX = -moveSpeed;
-        }
+        // if (key == KeyEvent.VK_LEFT) {
+        //     velocityX = -moveSpeed;
+        // }
 
-        if (key == KeyEvent.VK_RIGHT) {
-            velocityX = moveSpeed;
-        }
+        // if (key == KeyEvent.VK_RIGHT) {
+        //     velocityX = moveSpeed;
+        // }
 
         if (key == KeyEvent.VK_SPACE && onGround) {
             velocityY = -jumpStrength;
