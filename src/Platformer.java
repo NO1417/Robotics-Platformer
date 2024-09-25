@@ -16,13 +16,15 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
     private final int moveSpeed = 5;
     private final int jumpStrength = 15;
 
+    public JFrame frame;
+
     private Player player;
 
-    public ArrayList<Platform> platformList = new ArrayList();
+    public ArrayList<Rect> platformList = new ArrayList();
     public ArrayList<Rect> renderList = new ArrayList();
 
 
-    public Platformer() {
+    public Platformer(JFrame frame) {
         timer = new Timer(20, this);
         timer.start();
         playerX = 50;
@@ -33,12 +35,14 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         velocityY = 0;
         onGround = true;
 
-        this.player = new Player(50, 450, 50, 50, 0.0, 0.0., Color.RED);
+        this.frame = frame;
+
+        this.player = new Player(50, 450, 50, 50, 0.0, 0.0, Color.RED);
         this.addRenderableObject(player);
 
-        Rect obstacle = new Rect(600, 500, 100, 50, Color.GREEN);
+        //Rect obstacle = new Rect(600, 500, 100, 50, Color.GREEN);
 
-        Platform floor = new Platform(0, getHeight()-50, getWidth(), 50, Color.GREEN)
+        Platform floor = new Platform(0, getWinHeight()-50, getWinWidth(), 50, Color.GREEN);
         this.addObstacle(floor);
 
         setFocusable(true);
@@ -55,6 +59,14 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         this.renderList.add(obj);
     }
 
+    public int getWinWidth() {
+        return frame.getWidth();
+    }
+
+    public int getWinHeight() {
+        return frame.getHeight();
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -63,7 +75,7 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
 
         for ( Rect rect : this.renderList ) {
             g.setColor(rect.color);
-            g.fillRect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+            g.fillRect(rect.x, rect.y, rect.width, rect.height);
         }
 
         
@@ -95,7 +107,7 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
             velocityY += gravity;
             onGround = false;
         }
-        obstacle.setLocation(obstacle.getX()-5, obstacle.getY());
+        //obstacle.setLocation(obstacle.getX()-5, obstacle.getY());
 
         
     }
@@ -132,10 +144,15 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
 
     public static void main() {
         JFrame frame = new JFrame("Simple Platformer");
-        Platformer game = new Platformer();
+        frame.setSize(800,600);
+        frame.setLocationRelativeTo(null);
+
+
+        Platformer game = new Platformer(frame);
         frame.add(game);
-        frame.setSize(800, 600);
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+
     }
 }
