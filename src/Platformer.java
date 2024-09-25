@@ -147,7 +147,6 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         frame.setSize(800,600);
         frame.setLocationRelativeTo(null);
 
-
         Platformer game = new Platformer(frame);
         frame.add(game);
 
