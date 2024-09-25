@@ -1,6 +1,6 @@
-public class Plateform extends Rect {
+public class Platform extends Rect {
 
-    public Plateform(int x, int y, int width, int height) {
+    public Platform(int x, int y, int width, int height) {
         super(x,y,width,height);
     }
 

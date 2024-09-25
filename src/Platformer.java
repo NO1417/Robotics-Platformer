@@ -16,7 +16,7 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
     private final int moveSpeed = 5;
     private final int jumpStrength = 15;
 
-    public ArrayList<Plateform> plateformList = new ArrayList();
+    public ArrayList<Platform> platformList = new ArrayList();
 
 
     public Platformer() {
