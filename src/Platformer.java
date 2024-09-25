@@ -74,7 +74,7 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        
+
         cameraX = playerX - frameWidth / 2;
         cameraY = playerY - frameHeight / 2;
 
@@ -82,7 +82,7 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         if (cameraY < 0) cameraY = 0;
         if (cameraX > worldWidth - frameWidth) cameraX = worldWidth - frameWidth;
         if (cameraY > worldHeight - frameHeight) cameraY = worldHeight - frameHeight;
-        
+
         g.setColor(Color.CYAN);
         g.fillRect(0 - cameraX, 0 - cameraY, getWidth(), getHeight()); // Background
 
@@ -90,7 +90,7 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
             g.setColor(rect.color);
             g.fillRect(rect.x, rect.y, rect.width, rect.height);
         }
-        
+
         /*
         g.setColor(Color.GREEN);
         g.fillRect(0, 500, getWidth(), 100); // Ground
@@ -114,13 +114,13 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
             playerY = getHeight() - playerHeight;
             velocityY = 0;
             onGround = true;
-        
+
         } else {
             velocityY += gravity;
             onGround = false;
         }
 
-        
+
     }
 
     @Override
