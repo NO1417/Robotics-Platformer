@@ -1,10 +1,8 @@
 public class Platform extends Rect {
+    public Color color;
 
-    public Platform(int x, int y, int width, int height) {
+    public Platform(int x, int y, int width, int height, Color color) {
         super(x,y,width,height);
-    }
-
-    public boolean collidesWithRect(Rect rect) {
-        return (this.x < rect.x) && (this.x+this.width > rect.x) && (this.y < rect.y) && (this.y+this.height > rect.y);
+        this.color = color;
     }
 }

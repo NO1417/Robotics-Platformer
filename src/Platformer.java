@@ -30,6 +30,12 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         velocityY = 0;
         onGround = true;
 
+
+        int height = 50;
+        
+        Platform floor = new Platform(0, getHeight-height, getWidth(), height, Color.GREEN)
+        this.platformList.add(floor)
+
         setFocusable(true);
         addKeyListener(this);
     }
@@ -63,6 +69,7 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
             velocityY += gravity;
             onGround = false;
         }
+        frame.setLocation(frame.getX())
     }
 
     @Override

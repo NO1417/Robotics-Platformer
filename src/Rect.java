@@ -11,4 +11,7 @@ public class Rect {
         this.height = height;
     }
 
+    public boolean collidesWithRect(Rect rect) {
+        return (this.x < rect.x) && (this.x+this.width > rect.x) && (this.y < rect.y) && (this.y+this.height > rect.y);
+    }
 }
