@@ -1,8 +1,7 @@
-public class Platform extends Rect {
-    public Color color;
+import java.awt.*;
 
-    public Platform(int x, int y, int width, int height, Color color) {
+public class Platform extends Rect {
+    public Platform(int x, int y, int width, int height) {
         super(x,y,width,height);
-        this.color = color;
     }
 }
