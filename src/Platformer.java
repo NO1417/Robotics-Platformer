@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 public class Platformer extends JPanel implements ActionListener, KeyListener {
     private Timer timer;
@@ -14,6 +15,9 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
     private final int gravity = 1;
     private final int moveSpeed = 5;
     private final int jumpStrength = 15;
+
+    public ArrayList<Plateform> plateformList = new ArrayList();
+
 
     public Platformer() {
         timer = new Timer(20, this);
