@@ -25,9 +25,8 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
 
     private Player player;
 
-    public ArrayList<Rect> platformList = new ArrayList();
-    public ArrayList<Rect> renderList = new ArrayList();
-
+    public ArrayList<Rect> platformList = new ArrayList<>();
+    public ArrayList<Rect> renderList = new ArrayList<>();
 
     public Platformer(JFrame frame) {
         timer = new Timer(20, this);
@@ -82,10 +81,10 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         if (cameraX < 0) cameraX = 0;
         if (cameraY < 0) cameraY = 0;
         if (cameraX > worldWidth - frameWidth) cameraX = worldWidth - frameWidth;
-        if (cameray > worldHeight - frameHeight) cameraY = worldHeight - frameHeight;
+        if (cameraY > worldHeight - frameHeight) cameraY = worldHeight - frameHeight;
         
         g.setColor(Color.CYAN);
-        g.fillRect(0 - cameraX, 0 - cameraY, worldWidth, worldHeight); // Background
+        g.fillRect(rect.x - cameraX, rect.y - cameraY, rect.width, rect.height); // Background
 
         for ( Rect rect : this.renderList ) {
             g.setColor(rect.color);
@@ -111,8 +110,8 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         playerX += velocityX;
         playerY += velocityY;
 
-        if (playerY + playerHeight >= 350) { // Ground collision
-            playerY = 350 - playerHeight;
+        if (playerY + playerHeight >= getHeight()) { // Ground collision
+            playerY = getHeight() - playerHeight;
             velocityY = 0;
             onGround = true;
         
@@ -128,13 +127,13 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
 
-        // if (key == KeyEvent.VK_LEFT) {
-        //     velocityX = -moveSpeed;
-        // }
+        if (key == KeyEvent.VK_LEFT) {
+            velocityX = -moveSpeed;
+        }
 
-        // if (key == KeyEvent.VK_RIGHT) {
-        //     velocityX = moveSpeed;
-        // }
+        if (key == KeyEvent.VK_RIGHT) {
+            velocityX = moveSpeed;
+        }
 
         if (key == KeyEvent.VK_SPACE && onGround) {
             velocityY = -jumpStrength;
@@ -156,7 +155,7 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
 
     public static void main() {
         JFrame frame = new JFrame("Simple Platformer");
-        frame.setSize(800,600);
+        frame.setSize(frameWidth,frameHeight);
         frame.setLocationRelativeTo(null);
 
         Platformer game = new Platformer(frame);
