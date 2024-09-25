@@ -9,12 +9,17 @@ import java.util.ArrayList;
 public class Platformer extends JPanel implements ActionListener, KeyListener {
     private Timer timer;
     private int playerX, playerY;
+    private int cameraX, cameraY;
     private int playerWidth, playerHeight;
     private int velocityX, velocityY;
     private boolean onGround;
     private final int gravity = 1;
     private final int moveSpeed = 5;
     private final int jumpStrength = 15;
+    private final int worldWidth = 2000;
+    private final int worldHeight = 1000;
+    private final int frameWidth = 800;
+    private final int frameHeight = 600;
 
     public JFrame frame;
 
@@ -70,14 +75,22 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        
+        cameraX = playerX - frameWidth / 2;
+        cameraY = playerY - frameHeight / 2;
+
+        if (cameraX < 0) cameraX = 0;
+        if (cameraY < 0) cameraY = 0;
+        if (cameraX > worldWidth - frameWidth) cameraX = worldWidth - frameWidth;
+        if (cameray > worldHeight - frameHeight) cameraY = worldHeight - frameHeight;
+        
         g.setColor(Color.CYAN);
-        g.fillRect(0, 0, getWidth(), getHeight()); // Background
+        g.fillRect(0 - cameraX, 0 - cameraY, worldWidth, worldHeight); // Background
 
         for ( Rect rect : this.renderList ) {
             g.setColor(rect.color);
             g.fillRect(rect.x, rect.y, rect.width, rect.height);
         }
-
         
         /*
         g.setColor(Color.GREEN);
@@ -107,7 +120,6 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
             velocityY += gravity;
             onGround = false;
         }
-        //obstacle.setLocation(obstacle.getX()-5, obstacle.getY());
 
         
     }
