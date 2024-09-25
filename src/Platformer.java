@@ -19,7 +19,7 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         timer = new Timer(20, this);
         timer.start();
         playerX = 50;
-        playerY = 300;
+        playerY = 450;
         playerWidth = 50;
         playerHeight = 50;
         velocityX = 0;
@@ -34,9 +34,9 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.setColor(Color.CYAN);
-        g.fillRect(0, 0, getWidth(), getHeight()); // Background
+        g.fillRect(0, 4, getWidth(), getHeight()); // Background
         g.setColor(Color.GREEN);
-        g.fillRect(0, 350, getWidth(), 50); // Ground
+        g.fillRect(0, 500, getWidth(), 100); // Ground
         g.setColor(Color.RED);
         g.fillRect(playerX, playerY, playerWidth, playerHeight); // Player
     }
