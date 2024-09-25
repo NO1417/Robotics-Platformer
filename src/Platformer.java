@@ -84,7 +84,7 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         if (cameraY > worldHeight - frameHeight) cameraY = worldHeight - frameHeight;
         
         g.setColor(Color.CYAN);
-        g.fillRect(rect.x - cameraX, rect.y - cameraY, rect.width, rect.height); // Background
+        g.fillRect(0 - cameraX, 0 - cameraY, getWidth(), getHeight()); // Background
 
         for ( Rect rect : this.renderList ) {
             g.setColor(rect.color);
