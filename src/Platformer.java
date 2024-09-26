@@ -48,6 +48,7 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         this.frame = frame;
 
         this.player = new Player(100, 500, 50, 50, 0.0, 0.0, Color.BLACK);
+        this.addRenderableObject(player)
         
         Platform floor = new Platform(0, worldHeight-50, worldWidth, 50, Color.GREEN);
         this.addPlatform(floor);
