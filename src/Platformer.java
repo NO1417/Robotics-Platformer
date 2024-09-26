@@ -85,14 +85,6 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
 
         g.setColor(player.color);
         g.fillRect(playerX - cameraX, playerY - cameraY, player.width, player.height);
-
-        /*
-        g.setColor(Color.GREEN);
-        g.fillRect(0, 500, getWidth(), 100); // Ground
-        g.fillRect(300, 480, 60, 20);
-        g.setColor(Color.RED);
-        g.fillRect(playerX, playerY, playerWidth, playerHeight); // Player
-        */
     }
 
     @Override
