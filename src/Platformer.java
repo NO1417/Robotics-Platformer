@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Platformer extends JPanel implements ActionListener, KeyListener {
@@ -34,8 +35,8 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
     public ArrayList<Coin> coinList = new ArrayList<>();
 
     public Platformer(JFrame frame) {
-        timer = new Timer(20, this);
-        timer.start();
+        //timer = new Timer(20, this);
+        //timer.start();
         playerX = 50;
         playerY = 500;
         playerWidth = 50;
@@ -137,6 +138,10 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         }
     }
 
+    public void draw() {
+        this.repaint();
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         update();
@@ -146,7 +151,7 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
     private void update() {
         if (lives <= 0) {
             gameOver = true;
-            timer.stop();
+            //timer.stop();
             triggerGameOver();
             return;
         }
@@ -268,7 +273,22 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
     @Override
     public void keyTyped(KeyEvent e) {}
 
-    public static void main() {
+    public void display_loop() throws InterruptedException, IOException {
+        int fps = 100;
+        int clock_timer = 0;
+        while (true) {
+            Thread.sleep((1000/fps));
+
+            if (clock_timer % 2 == 0) {
+                update();
+            }
+
+            draw();
+            clock_timer++;
+        }
+    }
+
+    public static void main() throws IOException, InterruptedException {
         JFrame frame = new JFrame("Simple Platformer");
         frame.setSize(frameWidth,frameHeight);
         frame.setLocationRelativeTo(null);
@@ -278,6 +298,9 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+
+        game.display_loop();
+
 
     }
 }
