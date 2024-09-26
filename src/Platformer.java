@@ -45,21 +45,25 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         this.frame = frame;
 
         this.player = new Player(100, 500, 50, 50, 0.0, 0.0, Color.BLACK);
-
-        Rect platform1 = new Rect(600, 500, 100, 50, Color.GREEN);
-        this.addObstacle(platform1);
-
+        
         Platform floor = new Platform(0, worldHeight-50, worldWidth, 50, Color.GREEN);
-        this.addObstacle(floor);
+        this.addPlatform(floor);
 
-        KillBlock killBlock = new KillBlock(500, 500, 100, 50, Color.RED);
-        this.addKillBlock(killBlock);
+        // Platforms and kill blocks
+        Rect platform1 = new Rect(440, 500, 100, 20, Color.GREEN);
+        this.addPlatform(platform1);
+
+        Rect platform2 = new Rect(630, 450, 100, 20, Color.GREEN);
+        this.addPlatform(platform2);
+
+        KillBlock killBlock1 = new KillBlock(500, 520, 300, 30, Color.RED);
+        this.addKillBlock(killBlock1);
 
         setFocusable(true);
         addKeyListener(this);
     }
 
-    public void addObstacle(Rect obj) {
+    public void addPlatform(Rect obj) {
         this.platformList.add(obj);
         this.renderList.add(obj);
     }
@@ -99,6 +103,12 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.BOLD, 20));
         g.drawString("Lives: " + lives, 10, 30);
+
+        g.setColor(Color.GREEN);
+        g.drawString("Green = safe", 10, 60);
+
+        g.setColor(Color.RED);
+        g.drawString("Red = BAD", 10, 90);
 
         if (gameOver) {
             g.setColor(Color.RED);
