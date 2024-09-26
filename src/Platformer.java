@@ -97,6 +97,15 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         playerX += velocityX;
         playerY += velocityY;
 
+        // Camera logic
+        cameraX = playerX - frameWidth / 2;
+        cameraY = playerY - frameHeight / 2;
+
+        if (cameraX < 0) cameraX = 0;
+        if (cameraY < 0) cameraY = 0;
+        if (cameraX > worldWidth - frameWidth) cameraX = worldWidth - frameWidth;
+        if (cameraY > worldHeight - frameHeight) cameraY = worldHeight - frameHeight;
+
         if (playerX + playerWidth > worldWidth - 50) {
             playerX = worldWidth - playerWidth - 50; // Bind to right edge
         }
@@ -115,13 +124,7 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
             onGround = false;
         }
 
-        cameraX = playerX - frameWidth / 2;
-        cameraY = playerY - frameHeight / 2;
-
-        if (cameraX < 0) cameraX = 0;
-        if (cameraY < 0) cameraY = 0;
-        if (cameraX > worldWidth - frameWidth) cameraX = worldWidth - frameWidth;
-        if (cameraY > worldHeight - frameHeight) cameraY = worldHeight - frameHeight;
+        
 
         repaint();
 
