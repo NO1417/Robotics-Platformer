@@ -56,6 +56,12 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         Rect platform2 = new Rect(630, 450, 100, 20, Color.GREEN);
         this.addPlatform(platform2);
 
+        Rect platform3 = new Rect(380, 360, 100, 20, Color.GREEN);
+        this.addPlatform(platform3);
+
+        Rect platform4 = new Rect(100, 300, 100, 20, Color.GREEN);
+        this.addPlatform(platform4);
+
         KillBlock killBlock1 = new KillBlock(500, 520, 300, 30, Color.RED);
         this.addKillBlock(killBlock1);
 
