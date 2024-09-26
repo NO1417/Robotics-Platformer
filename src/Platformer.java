@@ -114,6 +114,8 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
             g.setColor(rect.color);
             g.fillRect(rect.x - cameraX, rect.y - cameraY, rect.width, rect.height);
         }
+<<<<<<< HEAD
+=======
 
         g.setColor(player.color);
         g.fillRect(playerX - cameraX, playerY - cameraY, player.width, player.height);
@@ -136,6 +138,7 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
             g.setFont(new Font("Arial", Font.BOLD, 50));
             g.drawString("GAME OVER", frameWidth/2 - 150, frameHeight/2);
         }
+>>>>>>> 1cb4054e4bde9f5840919ed5478b8a93b53826df
     }
 
     public void draw() {
@@ -175,6 +178,8 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
             }
         }
 
+<<<<<<< HEAD
+=======
         if (!platformCollision) {
             if (playerY + playerHeight >= 550) { // Ground collision
                 playerY = 500;
@@ -216,6 +221,7 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
 
         repaint();
 
+>>>>>>> 1cb4054e4bde9f5840919ed5478b8a93b53826df
     }
 
     public void checkCoinCollisions() {
