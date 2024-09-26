@@ -17,7 +17,7 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
     private final int moveSpeed = 5;
     private final int jumpStrength = 15;
     private final int worldWidth = 2000;
-    private final int worldHeight = 1000;
+    private final int worldHeight = 600;
     private static final int frameWidth = 800;
     private static final int frameHeight = 600;
 
@@ -32,7 +32,7 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         timer = new Timer(20, this);
         timer.start();
         playerX = 50;
-        playerY = 450;
+        playerY = 500;
         playerWidth = 50;
         playerHeight = 50;
         velocityX = 0;
@@ -41,12 +41,12 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
 
         this.frame = frame;
 
-        this.player = new Player(50, 450, 50, 50, 0.0, 0.0, Color.RED);
-        this.addRenderableObject(player);
+        this.player = new Player(100, 500, 50, 50, 0.0, 0.0, Color.RED);
 
-        //Rect obstacle = new Rect(600, 500, 100, 50, Color.GREEN);
+        Rect obstacle = new Rect(600, 500, 100, 50, Color.GREEN);
+        this.addObstacle(obstacle);
 
-        Platform floor = new Platform(0, getWinHeight()-50, getWinWidth(), 50, Color.GREEN);
+        Platform floor = new Platform(0, worldHeight-50, worldWidth, 50, Color.GREEN);
         this.addObstacle(floor);
 
         setFocusable(true);
@@ -75,21 +75,16 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        cameraX = playerX - frameWidth / 2;
-        cameraY = playerY - frameHeight / 2;
-
-        if (cameraX < 0) cameraX = 0;
-        if (cameraY < 0) cameraY = 0;
-        if (cameraX > worldWidth - frameWidth) cameraX = worldWidth - frameWidth;
-        if (cameraY > worldHeight - frameHeight) cameraY = worldHeight - frameHeight;
-
         g.setColor(Color.CYAN);
-        g.fillRect(0 - cameraX, 0 - cameraY, getWidth(), getHeight()); // Background
+        g.fillRect(0, 0, worldWidth, worldHeight); // Background
 
         for ( Rect rect : this.renderList ) {
             g.setColor(rect.color);
-            g.fillRect(rect.x, rect.y, rect.width, rect.height);
+            g.fillRect(rect.x - cameraX, rect.y - cameraY, rect.width, rect.height);
         }
+
+        g.setColor(player.color);
+        g.fillRect(playerX - cameraX, playerY - cameraY, player.width, player.height);
 
         /*
         g.setColor(Color.GREEN);
@@ -110,8 +105,16 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         playerX += velocityX;
         playerY += velocityY;
 
-        if (playerY + playerHeight >= getHeight()) { // Ground collision
-            playerY = getHeight() - playerHeight;
+        if (playerX + playerWidth > worldWidth - 50) {
+            playerX = worldWidth - playerWidth - 50; // Bind to right edge
+        }
+
+        if (playerX < 50) {
+            playerX = 50;
+        }
+        
+        if (playerY + playerHeight >= 550) { // Ground collision
+            playerY = 500;
             velocityY = 0;
             onGround = true;
 
@@ -120,6 +123,15 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
             onGround = false;
         }
 
+        cameraX = playerX - frameWidth / 2;
+        cameraY = playerY - frameHeight / 2;
+
+        if (cameraX < 0) cameraX = 0;
+        if (cameraY < 0) cameraY = 0;
+        if (cameraX > worldWidth - frameWidth) cameraX = worldWidth - frameWidth;
+        if (cameraY > worldHeight - frameHeight) cameraY = worldHeight - frameHeight;
+
+        repaint();
 
     }
 
