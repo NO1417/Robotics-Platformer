@@ -9,10 +9,7 @@ import java.util.ArrayList;
 
 public class Platformer extends JPanel implements ActionListener, KeyListener {
     private Timer timer;
-    private int playerX, playerY;
     private int cameraX, cameraY;
-    private int playerWidth, playerHeight;
-    private int velocityX, velocityY;
     private boolean onGround;
     private final int gravity = 1;
     private final int moveSpeed = 8;
@@ -37,18 +34,12 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
     public Platformer(JFrame frame) {
         //timer = new Timer(20, this);
         //timer.start();
-        playerX = 50;
-        playerY = 500;
-        playerWidth = 50;
-        playerHeight = 50;
-        velocityX = 0;
-        velocityY = 0;
         onGround = true;
 
         this.frame = frame;
 
-        this.player = new Player(100, 500, 50, 50, 0.0, 0.0, Color.BLACK);
-        this.addRenderableObject(player)
+        this.player = new Player(50, 500, 50, 50, 0.0, 0.0, Color.MAGENTA);
+        this.addRenderableObject(this.player);
         
         Platform floor = new Platform(0, worldHeight-50, worldWidth, 50, Color.GREEN);
         this.addPlatform(floor);
@@ -113,10 +104,10 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
 
         for ( Rect rect : this.renderList ) {
             g.setColor(rect.color);
-            g.fillRect(rect.x - cameraX, rect.y - cameraY, rect.width, rect.height);
+            g.fillRect(rect.x - cameraX,rect.y - cameraY, rect.width, rect.height);
         }
         g.setColor(player.color);
-        g.fillRect(playerX - cameraX, playerY - cameraY, player.width, player.height);
+        g.fillRect(player.x - cameraX, player.y - cameraY, player.width, player.height);
 
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.BOLD, 20));
@@ -156,18 +147,18 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
             return;
         }
         
-        playerX += velocityX;
-        playerY += velocityY;
+        player.x += player.velocity.x;
+        player.y += player.velocity.y;
 
         checkCoinCollisions();
 
         boolean platformCollision = false;
         
         for (Rect platform : platformList) {
-            if (playerX + playerWidth > platform.x && playerX < platform.x + platform.width) {
-                if (playerY + playerHeight <= platform.y && playerY + playerHeight + velocityY >= platform.y) {
-                    playerY = platform.y - playerHeight;
-                    velocityY = 0;
+            if (player.x + player.width > platform.x && player.x < platform.x + platform.width) {
+                if (player.y + player.height <= platform.y && player.y + player.height + player.velocity.y >= platform.y) {
+                    player.y = platform.y - player.height;
+                    player.velocity.y = 0;
                     onGround = true;
                     platformCollision = true;
                     break;
@@ -176,38 +167,38 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         }
 
         if (!platformCollision) {
-            if (playerY + playerHeight >= 550) { // Ground collision
-                playerY = 500;
-                velocityY = 0;
+            if (player.y + player.height >= 550) { // Ground collision
+                player.y = 500;
+                player.velocity.y = 0;
                 onGround = true;
     
             } else {
-                velocityY += gravity;
+                player.velocity.y += gravity;
                 onGround = false;
             }
         }
 
         for (Rect killBlock : killBlockList) {
-            if (playerX + playerWidth > killBlock.x && playerX < killBlock.x + killBlock.width) {
-                if (playerY + playerHeight + velocityY >= killBlock.y) {
-                    playerX = 100;
+            if (player.x + player.width > killBlock.x && player.x < killBlock.x + killBlock.width) {
+                if (player.y + player.height + player.velocity.y >= killBlock.y) {
+                    player.x = 100;
                     lives--;
                     break;
                 }
             }
         }
         
-        if (playerX + playerWidth > worldWidth) {
-            playerX = worldWidth - playerWidth; // Bind to right edge
-            velocityX = 0;
+        if (player.x + player.width > worldWidth) {
+            player.x = worldWidth - player.width; // Bind to right edge
+            player.velocity.x = 0;
         }
 
-        if (playerX < 0) {
-            playerX = 0;
+        if (player.x < 0) {
+            player.x = 0;
         }
 
-        cameraX = playerX - frameWidth / 2;
-        cameraY = playerY - frameHeight / 2;
+        cameraX = player.x - frameWidth / 2;
+        cameraY = player.y - frameHeight / 2;
 
         if (cameraX < 0) cameraX = 0;
         if (cameraY < 0) cameraY = 0;
@@ -222,7 +213,7 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         ArrayList<Coin> collectedCoins = new ArrayList<>();
 
         for (Coin coin: coinList) {
-            if (playerX < coin.x + coin.width && playerX + playerWidth > coin.x && playerY < coin.y + coin.height && playerY + playerHeight > coin.y) {
+            if (player.x < coin.x + coin.width && player.x + player.width > coin.x && player.y < coin.y + coin.height && player.y + player.height > coin.y) {
             score += 100;
             collectedCoins.add(coin);
             }
@@ -248,15 +239,15 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         int key = e.getKeyCode();
 
         if (key == KeyEvent.VK_LEFT) {
-            velocityX = -moveSpeed;
+            player.velocity.x = -moveSpeed;
         }
 
         if (key == KeyEvent.VK_RIGHT) {
-            velocityX = moveSpeed;
+            player.velocity.x = moveSpeed;
         }
 
         if (key == KeyEvent.VK_SPACE && onGround) {
-            velocityY = -jumpStrength;
+            player.velocity.y = -jumpStrength;
             onGround = false;
         }
     }
@@ -266,7 +257,7 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         int key = e.getKeyCode();
 
         if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_RIGHT) {
-            velocityX = 0;
+            player.velocity.x = 0;
         }
     }
 
