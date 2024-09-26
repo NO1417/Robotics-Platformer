@@ -106,28 +106,42 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         if (cameraX > worldWidth - frameWidth) cameraX = worldWidth - frameWidth;
         if (cameraY > worldHeight - frameHeight) cameraY = worldHeight - frameHeight;
 
-        if (playerX + playerWidth > worldWidth - 50) {
-            playerX = worldWidth - playerWidth - 50; // Bind to right edge
+        boolean platformCollision = false;
+        
+        for (Rect platform : platformList) {
+            if (playerX + playerWidth > platform.x && playerX < platform.x + platform.width) {
+                if (playerY + playerHeight <= platform.y && playerY + playerHeight + velocityY >= platform.y) {
+                    playerY = platform.y - playerHeight;
+                    velocityY = 0;
+                    onGround = true;
+                    platformCollision = true;
+                    break;
+                }
+            }
         }
 
-        if (playerX < 50) {
-            playerX = 50;
+        if (!platformCollision) {
+            if (playerY + playerHeight >= 550) { // Ground collision
+                playerY = 500;
+                velocityY = 0;
+                onGround = true;
+    
+            } else {
+                velocityY += gravity;
+                onGround = false;
+            }
         }
         
-        if (playerY + playerHeight >= 550) { // Ground collision
-            playerY = 500;
-            velocityY = 0;
-            onGround = true;
-
-        } else {
-            velocityY += gravity;
-            onGround = false;
+        if (playerX + playerWidth > worldWidth) {
+            playerX = worldWidth - playerWidth; // Bind to right edge
+            velocityX = 0;
         }
 
+        if (playerX < 0) {
+            playerX = 0;
+        }
         
-
         repaint();
-
     }
 
     @Override
