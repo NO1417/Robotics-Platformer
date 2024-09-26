@@ -154,8 +154,6 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
             }
         }
 
-<<<<<<< HEAD
-=======
         if (!platformCollision) {
             if (playerY + playerHeight >= 550) { // Ground collision
                 playerY = 500;
@@ -197,7 +195,6 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
 
         repaint();
 
->>>>>>> 1cb4054e4bde9f5840919ed5478b8a93b53826df
     }
 
     public void checkCoinCollisions() {
