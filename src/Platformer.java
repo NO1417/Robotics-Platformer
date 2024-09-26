@@ -22,6 +22,7 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
     private static final int frameHeight = 600;
     private int lives = 3;
     private boolean gameOver = false;
+    private int score = 0;
 
     public JFrame frame;
 
@@ -30,6 +31,7 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
     public ArrayList<Rect> platformList = new ArrayList<>();
     public ArrayList<Rect> renderList = new ArrayList<>();
     public ArrayList<Rect> killBlockList = new ArrayList<>();
+    public ArrayList<Coin> coinList = new ArrayList<>();
 
     public Platformer(JFrame frame) {
         timer = new Timer(20, this);
@@ -49,6 +51,10 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         Platform floor = new Platform(0, worldHeight-50, worldWidth, 50, Color.GREEN);
         this.addPlatform(floor);
 
+        // Coins
+        Coin coin1 = new Coin(120, 250, 20, 20, Color.YELLOW);
+        this.addCoin(coin1);
+        
         // Platforms and kill blocks
         Rect platform1 = new Rect(440, 500, 100, 20, Color.GREEN);
         this.addPlatform(platform1);
@@ -76,6 +82,11 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
 
     public void addKillBlock(KillBlock obj) {
         this.killBlockList.add(obj);
+        this.renderList.add(obj);
+    }
+
+    public void addCoin(Coin obj) {
+        this.coinList.add(obj);
         this.renderList.add(obj);
     }
     
@@ -116,6 +127,9 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         g.setColor(Color.RED);
         g.drawString("Red = BAD", 10, 90);
 
+        g.setColor(Color.BLACK);
+        g.drawString("Score: " + score, 130, 30);
+
         if (gameOver) {
             g.setColor(Color.RED);
             g.setFont(new Font("Arial", Font.BOLD, 50));
@@ -139,6 +153,8 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         
         playerX += velocityX;
         playerY += velocityY;
+
+        checkCoinCollisions();
 
         boolean platformCollision = false;
         
@@ -197,6 +213,20 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
 
     }
 
+    public void checkCoinCollisions() {
+        ArrayList<Coin> collectedCoins = new ArrayList<>();
+
+        for (Coin coin: coinList) {
+            if (playerX < coin.x + coin.width && playerX + playerWidth > coin.x && playerY < coin.y + coin.height && playerY + playerHeight > coin.y) {
+            score += 100;
+            collectedCoins.add(coin);
+            }
+        }
+        for (Coin coin: collectedCoins) {
+            coinList.remove(coin);
+            renderList.remove(coin);
+        }
+    }    
     public void triggerGameOver() {
         Timer exitTimer = new Timer(3000, new ActionListener() {
             @Override
