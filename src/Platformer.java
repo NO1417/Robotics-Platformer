@@ -115,6 +115,27 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
             g.setColor(rect.color);
             g.fillRect(rect.x - cameraX, rect.y - cameraY, rect.width, rect.height);
         }
+        g.setColor(player.color);
+        g.fillRect(playerX - cameraX, playerY - cameraY, player.width, player.height);
+
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("Arial", Font.BOLD, 20));
+        g.drawString("Lives: " + lives, 10, 30);
+
+        g.setColor(Color.GREEN);
+        g.drawString("Green = safe", 10, 60);
+
+        g.setColor(Color.RED);
+        g.drawString("Red = BAD", 10, 90);
+
+        g.setColor(Color.BLACK);
+        g.drawString("Score: " + score, 130, 30);
+
+        if (gameOver) {
+            g.setColor(Color.RED);
+            g.setFont(new Font("Arial", Font.BOLD, 50));
+            g.drawString("GAME OVER", frameWidth/2 - 150, frameHeight/2);
+        }
     }
 
     public void draw() {
