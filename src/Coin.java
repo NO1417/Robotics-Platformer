@@ -2,7 +2,7 @@ import java.awt.*;
 
 public class Coin extends Rect {
     public Coin(int x, int y, int width, int height, Color color) {
-        super(x, y, width, height);
+        super(x, y, width, height, color);
     }
 
     public void render(Graphics g, int cameraX, int cameraY) {
