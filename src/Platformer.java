@@ -72,7 +72,7 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         this.coinList.add(obj);
         this.renderList.add(obj);
     }
-    
+
     public void addRenderableObject(Rect obj) {
         this.renderList.add(obj);
     }
@@ -99,15 +99,15 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         g.setColor(player.color);
         g.fillRect(player.x - cameraX, player.y - cameraY, player.width, player.height);
 
-
-        g.setColor(Color.GREEN);
-        g.drawString("Green = safe", 10, 60);
+        g.setColor(Color.BLUE);
+        g.setFont(new Font("Arial", Font.BOLD, 20));
+        g.drawString("Blue = safe", 10, 60);
 
         g.setColor(Color.RED);
         g.drawString("Red = BAD", 10, 90);
 
-        g.setColor(Color.BLACK);
-        g.drawString("Score: " + score, 130, 30);
+        g.setColor(Color.GREEN);
+        g.drawString("Score: " + score, 10, 30);
 
         if (gameOver) {
             g.setColor(Color.RED);
@@ -159,14 +159,14 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
 
     private void update() {
         player.velocity.x = 8;
-        
+
         player.x += player.velocity.x;
         player.y += player.velocity.y;
 
         checkCoinCollisions();
 
         boolean platformCollision = false;
-        
+
         for (Rect platform : platformList) {
             if (player.x + player.width > platform.x && player.x < platform.x + platform.width) {
                 if (player.y + player.height <= platform.y && player.y + player.height + player.velocity.y >= platform.y) {
@@ -248,7 +248,7 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         exitTimer.setRepeats(false);
         exitTimer.start();
     }
-    
+
     @Override
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
