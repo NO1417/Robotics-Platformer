@@ -11,9 +11,9 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
     private Timer timer;
     private int cameraX, cameraY;
     private boolean onGround;
-    private final int gravity = 1;
+    private final double gravity = 1.4;
     private final int moveSpeed = 8;
-    private final int jumpStrength = 19;
+    private final int jumpStrength = 22;
     private final int worldWidth = 800;
     private final int worldHeight = 600;
     private static final int frameWidth = 800;
@@ -32,7 +32,8 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
     public ArrayList<Coin> coinList = new ArrayList<>();
 
     private int platformHeight = 25;
-    private int platformSpawnY = worldHeight - platformHeight;
+    private int platformSpawnY = 525;
+    private int platformWidth = 300;
 
     public Platformer(JFrame frame) {
         //timer = new Timer(20, this);
@@ -44,7 +45,7 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         this.player = new Player(200, 500, 50, 50, 0.0, 0.0, Color.MAGENTA);
         this.addRenderableObject(this.player);
         
-        Platform floor = new Platform(0, worldHeight-50, worldWidth, 50, Color.GREEN);
+        Platform floor = new Platform(0, worldHeight-50, worldWidth, 50, Color.BLUE);
         this.addPlatform(floor);
 
 
@@ -124,9 +125,19 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
     }
 
     private void generatePlatform() {
-        int height = 25;
-        Platform platform = new Platform(player.x+cameraX, randInt(0, worldHeight-height), 200,height, Color.blue);
-        addPlatform(platform);
+        this.addPlatform(new Platform((player.x+cameraX)+(worldWidth/2), platformSpawnY, platformWidth, platformHeight, Color.blue));
+
+        int m = randInt(-4,4);
+        int temp = platformSpawnY - m*platformHeight;
+        if (temp > worldHeight+(platformHeight*3)) {
+            m *= -1;
+            temp = platformSpawnY - m*platformHeight;
+        }
+
+        platformSpawnY = temp;
+
+
+
     }
 
     private int randInt(int min, int max) {
@@ -263,7 +274,7 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
                 update();
             }
 
-            if (clock_timer % 50 == 0) {
+            if (clock_timer % 54 == 0) {
                 generatePlatform();
             }
 
