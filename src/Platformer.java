@@ -131,6 +131,11 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
             this.addCoin(new Coin((player.x+cameraX)+(worldWidth/2)+(randInt(0,platformWidth-platformHeight)), platformSpawnY-( platformHeight*3), platformHeight, platformHeight, Color.YELLOW));
         }
 
+        if (randInt(1,4) == 1) {
+            int width = platformHeight*randInt(2,4);
+            this.addKillBlock(new KillBlock((player.x+cameraX)+(worldWidth/2)+(randInt(0,platformWidth-width)), platformSpawnY , width, platformHeight, Color.RED));
+        }
+
         int m = randInt(-7,4);
         int temp = platformSpawnY - m*platformHeight;
         if (temp > worldHeight- (platformHeight*5)  || temp < platformHeight*3) {
