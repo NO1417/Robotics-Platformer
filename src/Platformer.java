@@ -45,7 +45,7 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         this.player = new Player(200, 500, 50, 50, 0.0, 0.0, Color.MAGENTA);
         this.addRenderableObject(this.player);
         
-        Platform floor = new Platform(0, worldHeight-50, worldWidth, 50, Color.BLUE);
+        Platform floor = new Platform(0, worldHeight-50, 600, 50, Color.BLUE);
         this.addPlatform(floor);
 
 
@@ -127,13 +127,13 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
     private void generatePlatform() {
         this.addPlatform(new Platform((player.x+cameraX)+(worldWidth/2), platformSpawnY, platformWidth, platformHeight, Color.blue));
 
-        if (randInt(1,4) == 1) {
+        if (randInt(1,2) == 1) {
             this.addCoin(new Coin((player.x+cameraX)+(worldWidth/2)+(randInt(0,platformWidth-platformHeight)), platformSpawnY-( platformHeight*3), platformHeight, platformHeight, Color.YELLOW));
         }
 
-        int m = randInt(-4,4);
+        int m = randInt(-7,4);
         int temp = platformSpawnY - m*platformHeight;
-        if (temp > worldHeight- (platformHeight*5)) {
+        if (temp > worldHeight- (platformHeight*5)  || temp < platformHeight*3) {
             m *= -1;
             temp = platformSpawnY - m*platformHeight;
         }
