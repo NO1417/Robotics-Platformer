@@ -18,7 +18,6 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
     private final int worldHeight = 600;
     private static final int frameWidth = 800;
     private static final int frameHeight = 600;
-    private int lives = 3;
     private boolean gameOver = false;
     private int score = 0;
 
@@ -32,8 +31,15 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
     public ArrayList<Coin> coinList = new ArrayList<>();
 
     private int platformHeight = 25;
-    private int platformSpawnY = 525;
+    private int baseY = 525;
+    private int platformSpawnY = baseY;
     private int platformWidth = 300;
+
+    private int startX = 200;
+    private int startY = 500;
+
+    private Platform floor = new Platform(0, worldHeight-50, 600, 50, Color.BLUE);;
+
 
     public Platformer(JFrame frame) {
         //timer = new Timer(20, this);
@@ -44,8 +50,7 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
 
         this.player = new Player(200, 500, 50, 50, 0.0, 0.0, Color.MAGENTA);
         this.addRenderableObject(this.player);
-        
-        Platform floor = new Platform(0, worldHeight-50, 600, 50, Color.BLUE);
+
         this.addPlatform(floor);
 
 
@@ -94,9 +99,6 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         g.setColor(player.color);
         g.fillRect(player.x - cameraX, player.y - cameraY, player.width, player.height);
 
-        g.setColor(Color.BLACK);
-        g.setFont(new Font("Arial", Font.BOLD, 20));
-        g.drawString("Lives: " + lives, 10, 30);
 
         g.setColor(Color.GREEN);
         g.drawString("Green = safe", 10, 60);
@@ -136,7 +138,7 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
             this.addKillBlock(new KillBlock((player.x+cameraX)+(worldWidth/2)+(randInt(0,platformWidth-width)), platformSpawnY , width, platformHeight, Color.RED));
         }
 
-        int m = randInt(-7,4);
+        int m = randInt(-5,4);
         int temp = platformSpawnY - m*platformHeight;
         if (temp > worldHeight- (platformHeight*5)  || temp < platformHeight*3) {
             m *= -1;
@@ -157,13 +159,6 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
 
     private void update() {
         player.velocity.x = 8;
-
-        if (lives <= 0) {
-            gameOver = true;
-            //timer.stop();
-            triggerGameOver();
-            return;
-        }
         
         player.x += player.velocity.x;
         player.y += player.velocity.y;
@@ -190,16 +185,13 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         }
 
         if (player.y > worldHeight) {
-            lives = 0;
+            resetGame();
         }
 
         for (Rect killBlock : killBlockList) {
-            if (player.x + player.width > killBlock.x && player.x < killBlock.x + killBlock.width) {
-                if (player.y + player.height + player.velocity.y >= killBlock.y) {
-                    player.x = 100;
-                    lives--;
-                    break;
-                }
+            if (killBlock.collidesWithRect(player)) {
+                resetGame();
+                return;
             }
         }
 
@@ -215,6 +207,20 @@ public class Platformer extends JPanel implements ActionListener, KeyListener {
         if (cameraY > worldHeight - frameHeight) cameraY = worldHeight - frameHeight;
 
         repaint();
+
+    }
+
+    public void resetGame() {
+        player.x = startX;
+        player.y = startY;
+        player.velocity.y = 0;
+        platformList.clear();
+        renderList.clear();
+        killBlockList.clear();
+        coinList.clear();
+        platformSpawnY =baseY;
+        addPlatform(floor);
+
 
     }
 

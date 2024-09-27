@@ -25,8 +25,8 @@ public class Rect {
         int RectBX2 = this.x + this.width;
         int RectBY1 = this.y;
         int RectBY2 = this.y + this.height;
-        return (RectAX1 < RectBX2 && RectAX2 > RectBX1 &&
-                RectAY1 < RectBY2 && RectAY2 > RectBY1);
+        return (RectAX1 <= RectBX2 && RectAX2 >= RectBX1 &&
+                RectAY1 <= RectBY2 && RectAY2 >= RectBY1);
     }
 
     public boolean containsRect(Rect rect) {
